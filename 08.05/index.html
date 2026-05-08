@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Vitaliy page</title>
+</head>
+<body style="background-color: #000000; background-image: url('space.jfif'); color: white; font-family: Arial, sans-serif;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px;">
+        <h1 style="font-size: 100px; margin: 0;">SPACE MAP</h1>
+        <span style="font-size: 40px; color: white; margin-right: 20px">FASFAG</span>
+    </div>
+
+    <h2 style="font-size: 65px; margin-left: 20px;">
+        <a href="https://eyes.nasa.gov/apps/solar-system/#/home" style="color: white; text-decoration: none;">MAP</a>
+    </h2>
+
+    <div style="display: flex; margin: 30px;">
+        <div style="flex: 1; padding-right: 20px;">
+            <img src="earth.png" alt="Earth" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div style="flex: 1;">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+                <h3 style="margin-top: 0;">Оставьте заявку</h3>
+                <form id="contactForm" style="display: flex; flex-direction: column;">
+                    <label for="name" style="margin-bottom: 5px;">Имя:</label>
+                    <input type="text" id="name" name="name" required style="margin-bottom: 15px; padding: 8px; border-radius: 4px; border: none;">
+
+                    <label for="contact" style="margin-bottom: 5px;">Телефон или email:</label>
+                    <input type="text" id="contact" name="contact" required style="margin-bottom: 15px; padding: 8px; border-radius: 4px; border: none;">
+
+                    <button type="submit" style="padding: 10px; background: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer;">Отправить</button>
+                </form>
+            </div>
+
+            <div>
+                <h3>Каталог планет для покупки</h3>
+                <div id="planetCatalog" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                    <div class="planet-card" style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4>Марс</h4>
+                        <img src="mars.png" alt="Mars" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+                        <p>Цена: 1 000 000 кредитов</p>
+                        <button class="add-to-cart" style="padding: 8px 15px; background: #28A745; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="addToCart('Марс', 1000000)">В корзину</button>
+                    </div>
+
+                    <div class="planet-card" style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4>Венера</h4>
+                        <img src="venus.png" alt="Venus" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+                        <p>Цена: 1 500 000 кредитов</p>
+                        <button class="add-to-cart" style="padding: 8px 15px; background: #28A745; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="addToCart('Венера', 1500000)">В корзину</button>
+                    </div>
+
+                    <div class="planet-card" style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4>Юпитер</h4>
+                        <img src="jupiter.png" alt="Jupiter" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+                        <p>Цена: 5 000 000 кредитов</p>
+                        <button class="add-to-cart" style="padding: 8px 15px; background: #28A745; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="addToCart('Юпитер', 5000000)">В корзину</button>
+                    </div>
+
+                    <div class="planet-card" style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4>Сатурн</h4>
+                        <img src="saturn.png" alt="Saturn" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+                        <p>Цена: 4 500 000 кредитов</p>
+                        <button class="add-to-cart" style="padding: 8px 15px; background: #28A745; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="addToCart('Сатурн', 4500000)">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+
+<div id="cart" style="margin-top: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+    <h3>Корзина</h3>
+    <ul id="cartItems" style="list-style: none; padding: 0;"></ul>
+    <p id="totalPrice" style="font-weight: bold;">Общая стоимость: 0 кредитов</p>
+    <button onclick="clearCart()" style="margin-top: 10px; padding: 8px 15px; background: #DC3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Очистить корзину</button>
+</div>
+</div>
+</div>
+
+<script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(planetName, price) {
+        cart.push({ name: planetName, price: price });
+        total += price;
+        updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+        const cartItems = document.getElementById('cartItems');
+        const totalPrice = document.getElementById('totalPrice');
+
+
+  
+        cartItems.innerHTML = '';
+
+
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.name} — ${item.price} кредитов`;
+            cartItems.appendChild(li);
+        });
+
+      
+        totalPrice.textContent = `Общая стоимость: ${total} кредитов`;
+
+   
+        const cartContainer = document.getElementById('cart');
+        if (cart.length > 0) {
+            cartContainer.style.display = 'block';
+        } else {
+            cartContainer.style.display = 'none';
+        }
+    }
+
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Предотвращаем стандартную отправку формы
+
+        const name = document.getElementById('name').value;
+        const contact = document.getElementById('contact').value;
+
+        alert(`Спасибо, ${name}! Ваша заявка принята. С вами свяжутся по: ${contact}`);
+
+    
+        document.getElementById('name').value = '';
+        document.getElementById('contact').value = '';
+    });
+
+    function clearCart() {
+        cart = [];
+        total = 0;
+        updateCartDisplay();
+    }
+</script>
+</body>
+</html>
